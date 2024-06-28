@@ -1,30 +1,72 @@
-# React + TypeScript + Vite
+# 🌟 Ubuntu-Play
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ubuntu-Play is a web-based interface that mimics the Ubuntu operating system, built using React. This project aims to provide a familiar Ubuntu-like environment accessible through a web browser.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Installation
 
-## Expanding the ESLint configuration
+To get started with Ubuntu-Play, follow these steps:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/vtjhyn/ubuntu-play.git
+   cd ubuntu-play
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+3. **Start the development server**:
+   ```bash
+   npm start
+   ```
+
+   The app will be available at `http://localhost:5173`.
+
+## 📝 Semantic Commit Messages
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for commit messages. Here's the structure:
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation changes
+- **style**: Code style changes (formatting, etc.)
+- **refactor**: Code changes that neither fix a bug nor add a feature
+- **perf**: Performance improvements
+- **test**: Adding or correcting tests
+- **build**: Changes to the build process or dependencies
+- **ci**: Continuous Integration changes
+- **chore**: Other changes that don't modify `src` or `test` files
+- **revert**: Reverts a previous commit
+
+### Examples
+
+```bash
+feat(navbar): add new status indicator
+fix(lockscreen): correct logic for unlocking screen on key press
+docs: update README with installation instructions
+style: improve code formatting in StatusCard component
+refactor: extract utility functions from Navbar component
+test: add unit tests for formatTime utility
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 🌈 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'feat: add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a Pull Request.
+
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Happy coding! 🚀✨
