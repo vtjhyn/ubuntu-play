@@ -21,7 +21,7 @@ To get started with Ubuntu-Play, follow these steps:
 
 3. **Start the development server**:
    ```bash
-   npm start
+   npm run start
    ```
 
    The app will be available at `http://localhost:5173`.
