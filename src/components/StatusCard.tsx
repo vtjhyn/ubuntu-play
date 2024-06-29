@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { RootState } from "../store/store";
+import { setBrightnessLevel, setSoundLevel } from "../store/features/systemSettingSlice";
 
 interface StatusCardProps {
   shutDown: () => void;
@@ -13,22 +17,20 @@ const StatusCard: React.FC<StatusCardProps> = ({
   visible,
   toggleVisible,
 }) => {
-  const [soundLevel, setSoundLevel] = useState(Number(localStorage.getItem("soundLevel")) || 75);
-  const [brightnessLevel, setBrightnessLevel] = useState(Number(localStorage.getItem("brightnessLevel")) || 100);
+  const dispatch = useDispatch();
+  const { soundLevel, brightnessLevel } = useSelector((state: RootState) => state.systemSetting);
 
   useEffect(() => {
     adjustBrightness(brightnessLevel);
   }, []);
 
   const handleSoundChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSoundLevel(parseInt(e.target.value));
-    localStorage.setItem("soundLevel", e.target.value);
+    dispatch(setSoundLevel(parseInt(e.target.value)));
   };
 
   const handleBrightnessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setBrightnessLevel(value);
-    localStorage.setItem("brightnessLevel", value.toString());
+    dispatch(setBrightnessLevel(value));
     adjustBrightness(value);
   };
 
@@ -139,7 +141,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
         </div>
       </div>
       <div className="w-64 flex content-center justify-center bg-cool-grey">
-        <div className="w-2/4 border-black border-opacity-50 border-b my-2 border-solid"/>
+        <div className="w-2/4 border-black border-opacity-50 border-b my-2 border-solid" />
       </div>
       <div
         id="open-settings"
