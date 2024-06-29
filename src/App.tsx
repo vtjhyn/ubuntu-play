@@ -1,57 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from './components/Navbar';
+import { useEffect, useState } from 'react';
+
 import LockScreen from './components/screen/LockScreen';
 import BootingScreen from './components/screen/BootingScreen';
 import Desktop from './components/screen/Desktop';
+import Navbar from './components/navigation/Navbar';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
+import { setSystemMode } from './store/features/systemModeSlice';
 
 const Ubuntu: React.FC = () => {
-  const [screenLocked, setScreenLocked] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { systemMode } = useSelector((state: RootState) => state.systemMode);
   const [bgImageName, setBgImageName] = useState<string>('bg-1');
-  const [bootingScreen, setBootingScreen] = useState<boolean>(true);
-  const [shutDownScreen, setShutDownScreen] = useState<boolean>(false);
 
   useEffect(() => {
-    initializeFromLocalStorage();
+    setTimeout(() => {
+      dispatch(setSystemMode('active'));
+    }, 2000)
   }, []);
 
-  const initializeFromLocalStorage = () => {
-    const bgImage = localStorage.getItem('bgImage');
-    if (bgImage) {
-      setBgImageName(bgImage);
-    }
-
-    const isBooting = localStorage.getItem('isBooting');
-    if (isBooting === 'false') {
-      setBootingScreen(false);
-    } else {
-      setTimeout(() => {
-        setBootingScreen(false);
-        localStorage.setItem('isBooting', 'false');
-      }, 2000);
-    }
-
-    const isShutdown = localStorage.getItem('isShutdown');
-    if (isShutdown === 'true') {
-      shutDownHandler();
-    } else {
-      const isLocked = localStorage.getItem('isLocked');
-      if (isLocked === 'true') {
-        setScreenLocked(true);
-      }
-    }
-  };
 
   const lockScreen = () => {
     document.getElementById('status-bar')?.blur();
     setTimeout(() => {
-      setScreenLocked(true);
-      localStorage.setItem('isLocked', 'true');
+      dispatch(setSystemMode('locked'));
     }, 100);
   };
 
   const unlockScreen = () => {
-    setScreenLocked(false);
-    localStorage.setItem('isLocked', 'false');
+    dispatch(setSystemMode('active'));
   };
 
   const changeBackgroundImage = (imageName: string) => {
@@ -61,24 +39,20 @@ const Ubuntu: React.FC = () => {
 
   const shutDownHandler = () => {
     document.getElementById('status-bar')?.blur();
-    setShutDownScreen(true);
-    localStorage.setItem('isShutdown', 'true');
+    dispatch(setSystemMode('shutdown'));
   };
 
   const turnOn = () => {
-    console.log("aa");
-    setShutDownScreen(false);
-    setBootingScreen(true);
+    dispatch(setSystemMode('booting'));
     setTimeout(() => {
-      setBootingScreen(false);
-      localStorage.setItem('isShutdown', 'false');
+      dispatch(setSystemMode('active'));
     }, 2000);
   };
 
   return (
     <div className="w-screen h-screen overflow-hidden" id="ubuntu-screen">
-      <LockScreen locked={screenLocked} bgImage={bgImageName} unLockScreen={unlockScreen} />
-      <BootingScreen show={bootingScreen} isShutDown={shutDownScreen} turnOn={turnOn} />
+      <LockScreen locked={systemMode === 'locked'} bgImage={bgImageName} unLockScreen={unlockScreen} />
+      <BootingScreen show={systemMode === 'booting'} isShutDown={systemMode === 'shutdown'} turnOn={turnOn} />
       <Navbar lockScreen={lockScreen} shutDown={shutDownHandler} />
       <Desktop bgImage={bgImageName} changeBgImage={changeBackgroundImage} />
     </div>

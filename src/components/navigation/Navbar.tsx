@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Status from './Status';
-import StatusCard from './StatusCard';
-import formatTime from '../utils/formatTime';
-import useCurrentTime from '../hooks/useCurrentTime';
+import Status from '../Status';
+import StatusCard from '../StatusCard';
+import formatTime from '../../utils/formatTime';
+import useCurrentTime from '../../hooks/useCurrentTime';
 
 interface NavbarProps {
   shutDown: () => void;
