@@ -108,7 +108,7 @@ const Desktop = () => {
               hideSideBar={handleShowSidebar}
               minimized={onMinimizedApp}
               isMinimized={minimizedWindows[app.id]}
-              hideAllSideBar={() => { setShowSidebar(false) }}
+              hideAllSideBar={() => { setShowSidebar(!showSidebar) }}
             />
           )
         }
