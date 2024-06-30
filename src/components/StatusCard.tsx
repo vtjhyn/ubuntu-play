@@ -35,7 +35,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
   };
 
   const adjustBrightness = (value: number) => {
-    const brightnessValue = 1.2 / 100 * value + 0.25;
+    const brightnessValue = 1 / 100 * value + 0.25;
     document.getElementById('ubuntu-screen')!.style.filter = `brightness(${brightnessValue})`;
   };
 

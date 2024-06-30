@@ -8,12 +8,10 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import { setSystemMode } from './store/features/systemModeSlice';
-import { setBgImage } from './store/features/systemSettingSlice';
 
 const Ubuntu: React.FC = () => {
   const dispatch = useDispatch();
   const { systemMode } = useSelector((state: RootState) => state.systemMode);
-  const { bgImage } = useSelector((state: RootState) => state.systemSetting);
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,10 +31,6 @@ const Ubuntu: React.FC = () => {
     dispatch(setSystemMode('active'));
   };
 
-  const changeBackgroundImage = (imageName: string) => {
-    dispatch(setBgImage(imageName));
-  };
-
   const shutDownHandler = () => {
     document.getElementById('status-bar')?.blur();
     dispatch(setSystemMode('shutdown'));
@@ -51,10 +45,10 @@ const Ubuntu: React.FC = () => {
 
   return (
     <div className="w-screen h-screen overflow-hidden" id="ubuntu-screen">
-      <LockScreen locked={systemMode === 'locked'} bgImage={bgImage} unLockScreen={unlockScreen} />
+      <LockScreen locked={systemMode === 'locked'} unLockScreen={unlockScreen} />
       <BootingScreen show={systemMode === 'booting'} isShutDown={systemMode === 'shutdown'} turnOn={turnOn} />
       <Navbar lockScreen={lockScreen} shutDown={shutDownHandler} />
-      <Desktop bgImage={bgImage} changeBgImage={changeBackgroundImage} />
+      <Desktop />
     </div>
   );
 };

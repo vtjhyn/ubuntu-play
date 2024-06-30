@@ -2,15 +2,17 @@ import { useEffect } from "react";
 import BackgroundImage from "../../themes/BackgroundImage";
 import useCurrentTime from "../../hooks/useCurrentTime";
 import formatTime from "../../utils/formatTime";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface LockScreenProps {
     locked: boolean;
-    bgImage: string;
     unLockScreen: () => void;
 }
 
-const LockScreen: React.FC<LockScreenProps> = ({ locked, bgImage, unLockScreen }) => {
+const LockScreen: React.FC<LockScreenProps> = ({ locked, unLockScreen }) => {
     const time = useCurrentTime();
+    const { bgImage } = useSelector((state: RootState) => state.systemSetting)
 
     useEffect(() => {
         if (locked) {
