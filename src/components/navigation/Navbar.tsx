@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import StatusCard from '../menu/StatusCard';
+import StatusMenu from '../menu/StatusMenu';
 import formatTime from '../../utils/formatTime';
 import useCurrentTime from '../../hooks/useCurrentTime';
 
@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ shutDown, lockScreen }) => {
           </span>
         </div>
       </div>
-      <StatusCard
+      <StatusMenu
         shutDown={shutDown}
         lockScreen={lockScreen}
         visible={statusCardVisible}

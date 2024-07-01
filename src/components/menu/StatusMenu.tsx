@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { setBrightnessLevel, setSoundLevel } from "../../store/features/systemSettingSlice";
 
-interface StatusCardProps {
+interface StatusMenuProps {
   shutDown: () => void;
   lockScreen: () => void;
   visible: boolean;
   toggleVisible: () => void;
 }
 
-const StatusCard: React.FC<StatusCardProps> = ({
+const StatusMenu: React.FC<StatusMenuProps> = ({
   shutDown,
   lockScreen,
   visible,
@@ -195,4 +195,4 @@ const StatusCard: React.FC<StatusCardProps> = ({
   );
 };
 
-export default StatusCard;
+export default StatusMenu;
