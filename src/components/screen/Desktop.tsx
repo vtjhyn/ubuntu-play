@@ -5,6 +5,7 @@ import Sidebar from "../navigation/Sidebar";
 import { useState } from "react";
 import Window from "./Window";
 import defaultApps from "../../constant/defaultApps";
+import DesktopApp from "../DesktopApp";
 
 const Desktop = () => {
   const { bgImage } = useSelector((state: RootState) => state.systemSetting)
@@ -93,17 +94,9 @@ const Desktop = () => {
         showAllApps={() => { }}
       />
 
-      {/* {defaultApps.map((app) => (
-        <div
-          className="p-1 m-px z-10 bg-white bg-opacity-0 hover:bg-opacity-20 focus:bg-orange focus:bg-opacity-50 focus:border-yellow-700 focus:border-opacity-100 border border-transparent outline-none rounded select-none w-24 h-20 flex flex-col justify-start items-center text-center text-xs font-normal text-white"
-          id={app.id}
-          onDoubleClick={() => openApp(app.id)}
-        >
-          <img width="40px" height="40px" className="mb-1 w-10" src={app.icon} alt={"Ubuntu " + app.title} />
-          {app.title}
-        </div>
-      ))} */}
-
+      {defaultApps.map((app, index) => (
+        <DesktopApp key={index} id={app.id} icon={app.icon} name={app.title} openApp={() => openApp(app.id)} />
+      ))}
 
       {defaultApps.map((app, index) => {
         if (openedApps.includes(app.id)) {
