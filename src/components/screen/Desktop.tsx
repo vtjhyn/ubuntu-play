@@ -6,6 +6,7 @@ import { useState } from "react";
 import Window from "./Window";
 import defaultApps from "../../constant/defaultApps";
 import DesktopApp from "../view/DesktopApp";
+import AllApp from "../view/AllApp";
 
 const Desktop = () => {
   const { bgImage } = useSelector((state: RootState) => state.systemSetting)
@@ -14,6 +15,7 @@ const Desktop = () => {
   const [focusedApp, setFocusedApps] = useState<Record<string, boolean>>({});
   const [overlappedWindows, setOverlappedWindows] = useState<Record<string, boolean>>({});
   const [minimizedWindows, setMinimizedWindows] = useState<Record<string, boolean>>({});
+  const [showAllApps, setShowAllApps] = useState<boolean>(false);
 
   const handleShowSidebar = (id: string | null, hide: boolean) => {
     if (hide === showSidebar) return;
@@ -91,7 +93,7 @@ const Desktop = () => {
         minimizedApps={minimizedWindows}
         focusedApp={focusedApp}
         openApp={openApp}
-        showAllApps={() => { }}
+        showAllApps={() => setShowAllApps(!showAllApps)}
       />
 
       {defaultApps.map((app, index) => (
@@ -117,6 +119,10 @@ const Desktop = () => {
           )
         }
       })}
+
+      {showAllApps && (
+        <AllApp apps={defaultApps} openApp={openApp} />
+      )}
     </div>
   )
 }

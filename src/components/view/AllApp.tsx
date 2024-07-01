@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react';
 import DesktopApp from './DesktopApp';
 
-
 interface App {
     id: string;
     title: string;
     icon: string;
 }
 
-interface AllApplicationsProps {
+interface AllAppProps {
     apps: App[];
     openApp: (appId: string) => void;
 }
 
-const AllApplications: React.FC<AllApplicationsProps> = ({ apps, openApp }) => {
+const AllApp: React.FC<AllAppProps> = ({ apps, openApp }) => {
     const [query, setQuery] = useState<string>("");
     const [filteredApps, setFilteredApps] = useState<App[]>([]);
-    const [category, setCategory] = useState<number>(0); // 0 for all, 1 for frequent
 
     useEffect(() => {
         setFilteredApps(apps);
@@ -34,37 +32,6 @@ const AllApplications: React.FC<AllApplicationsProps> = ({ apps, openApp }) => {
         }
     };
 
-    const getFrequentApps = (): App[] => {
-        const frequentAppsInfo = JSON.parse(localStorage.getItem("frequentApps") || "[]");
-        const frequentApps: App[] = [];
-        frequentAppsInfo.forEach((app_info: { id: string }) => {
-            const app = apps.find(app => app.id === app_info.id);
-            if (app) {
-                frequentApps.push(app);
-            }
-        });
-        return frequentApps;
-    };
-
-    const handleSwitch = (category: number) => {
-        if (category !== category) {
-            setCategory(category);
-        }
-    };
-
-    const renderApps = () => {
-        let appsToRender: App[];
-        if (category === 0) {
-            appsToRender = filteredApps;
-        } else {
-            appsToRender = getFrequentApps();
-        }
-
-        return appsToRender.map((app, index) => (
-            <DesktopApp key={index} id={app.id} name={app.title} icon={app.icon} openApp={openApp} />
-        ));
-    };
-
     return (
         <div className="absolute h-full top-7 w-full z-20 pl-12 justify-center md:pl-20 border-black border-opacity-60 bg-black bg-opacity-70">
             <div className="flex md:pr-20 pt-5 align-center justify-center">
@@ -79,20 +46,12 @@ const AllApplications: React.FC<AllApplicationsProps> = ({ apps, openApp }) => {
                 </div>
             </div>
             <div className="grid md:grid-cols-6 md:grid-rows-3 grid-cols-3 grid-rows-6 md:gap-4 gap-1 md:px-20 px-5 pt-10 justify-center">
-                {renderApps()}
-            </div>
-            <div className="flex align-center justify-center w-full fixed bottom-0 mb-15 pr-20 md:pr-20">
-                <div className="w-1/4 text-center group text-white bg-transparent cursor-pointer items-center" onClick={() => handleSwitch(1)}>
-                    <h4>Frequent</h4>
-                    {category === 1 ? <div className="h-1 mt-1 bg-orange self-center" /> : <div className="h-1 mt-1 bg-transparent group-hover:bg-white " />}
-                </div>
-                <div className="w-1/4 text-center group text-white bg-transparent cursor-pointer items-center" onClick={() => handleSwitch(0)}>
-                    <h4>All</h4>
-                    {category === 0 ? <div className="h-1 mt-1 bg-orange self-center" /> : <div className="h-1 mt-1 bg-transparent group-hover:bg-white" />}
-                </div>
+                {filteredApps.map((app, index) => (
+                    <DesktopApp key={index} id={app.id} name={app.title} icon={app.icon} openApp={openApp} />
+                ))}
             </div>
         </div>
     );
 };
 
-export default AllApplications;
+export default AllApp;
