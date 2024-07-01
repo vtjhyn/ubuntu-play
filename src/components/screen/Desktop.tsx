@@ -44,25 +44,18 @@ const Desktop = () => {
   }
 
   const openApp = (id: string) => {
-    let newFocusedWindows = { ...focusedApp };
-    let newMinimizedWindows = { ...minimizedWindows };
-
-    if (openedApps.includes(id)) {
-      if (minimizedWindows[id]) {
-        newMinimizedWindows[id] = false;
-        setMinimizedWindows(newMinimizedWindows);
-        newFocusedWindows[id] = true;
-        setFocusedApps(newFocusedWindows);
-      } else {
-        newFocusedWindows[id] = false;
-        setFocusedApps(newFocusedWindows);
-      }
-    } else {
-      newMinimizedWindows[id] = false;
-      setMinimizedWindows(newMinimizedWindows);
-      newFocusedWindows[id] = true;
-      setFocusedApps(newFocusedWindows);
-      setOpennedApps([...openedApps, id]);
+    setMinimizedWindows(prevMinimizedWindows => {
+      let newMinimizedWindows = { ...prevMinimizedWindows, [id]: false };
+      return newMinimizedWindows;
+    });
+  
+    setFocusedApps(prevFocusedApps => {
+      let newFocusedWindows = { ...prevFocusedApps, [id]: true };
+      return newFocusedWindows;
+    });
+  
+    if (!openedApps.includes(id)) {
+      setOpennedApps(prevOpenedApps => [...prevOpenedApps, id]);
     }
   }
 
@@ -72,8 +65,14 @@ const Desktop = () => {
   }
 
   const onFocusedApp = (id: string) => {
-    setFocusedApps({ ...focusedApp, [id]: true });
-  }
+    setFocusedApps(prevFocusedApps => {
+      let newFocusedApps = Object.keys(prevFocusedApps).reduce((acc, appId) => {
+        acc[appId] = appId === id;
+        return acc;
+      }, {} as { [key: string]: boolean });
+      return newFocusedApps;
+    });
+  };
 
   const onMinimizedApp = (id: string) => {
     setMinimizedWindows({ ...minimizedWindows, [id]: true });
@@ -94,6 +93,19 @@ const Desktop = () => {
         openApp={openApp}
         showAllApps={() => { }}
       />
+
+      {/* {defaultApps.map((app) => (
+        <div
+          className="p-1 m-px z-10 bg-white bg-opacity-0 hover:bg-opacity-20 focus:bg-orange focus:bg-opacity-50 focus:border-yellow-700 focus:border-opacity-100 border border-transparent outline-none rounded select-none w-24 h-20 flex flex-col justify-start items-center text-center text-xs font-normal text-white"
+          id={app.id}
+          onDoubleClick={() => openApp(app.id)}
+        >
+          <img width="40px" height="40px" className="mb-1 w-10" src={app.icon} alt={"Ubuntu " + app.title} />
+          {app.title}
+        </div>
+      ))} */}
+
+
       {defaultApps.map((app, index) => {
         if (openedApps.includes(app.id)) {
           return (
