@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { RootState } from "../store/store";
-import { setBrightnessLevel, setSoundLevel } from "../store/features/systemSettingSlice";
+import { RootState } from "../../store/store";
+import { setBrightnessLevel, setSoundLevel } from "../../store/features/systemSettingSlice";
 
 interface StatusCardProps {
   shutDown: () => void;

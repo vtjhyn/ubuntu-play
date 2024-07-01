@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Status from '../Status';
-import StatusCard from '../StatusCard';
+import { useState } from 'react';
+import StatusCard from '../menu/StatusCard';
 import formatTime from '../../utils/formatTime';
 import useCurrentTime from '../../hooks/useCurrentTime';
 
@@ -8,6 +7,21 @@ interface NavbarProps {
   shutDown: () => void;
   lockScreen: () => void;
 }
+
+const icons = [
+  {
+    src: "./icons/status/network.svg",
+    alt: "ubuntu wifi"
+  },
+  {
+    src: "./icons/status/volume.svg",
+    alt: "ubuntu sound"
+  },
+  {
+    src: "./icons/status/battery.svg",
+    alt: "ubuntu battery"
+  }
+];
 
 const Navbar: React.FC<NavbarProps> = ({ shutDown, lockScreen }) => {
   const time = useCurrentTime();
@@ -35,7 +49,22 @@ const Navbar: React.FC<NavbarProps> = ({ shutDown, lockScreen }) => {
         onClick={toggleStatusCard}
         className="relative pr-3 pl-3 py-1 outline-none transition duration-100 ease-in-out border-b-2 border-transparent"
       >
-        <Status isCardOpen={statusCardVisible} />
+        <div className="flex justify-center items-center">
+          {icons.map((icon, index) => (
+            <span key={index} className="mx-1.5">
+              <img
+                width="16px"
+                height="16px"
+                src={icon.src}
+                alt={icon.alt}
+                className="inline status-symbol w-4 h-4"
+              />
+            </span>
+          ))}
+          <span className="mx-1">
+            <div className={`arrow-custom-${statusCardVisible ? "up" : "down"} status-symbol`} />
+          </span>
+        </div>
       </div>
       <StatusCard
         shutDown={shutDown}

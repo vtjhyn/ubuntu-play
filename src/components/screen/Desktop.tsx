@@ -5,7 +5,7 @@ import Sidebar from "../navigation/Sidebar";
 import { useState } from "react";
 import Window from "./Window";
 import defaultApps from "../../constant/defaultApps";
-import DesktopApp from "../DesktopApp";
+import DesktopApp from "../view/DesktopApp";
 
 const Desktop = () => {
   const { bgImage } = useSelector((state: RootState) => state.systemSetting)
