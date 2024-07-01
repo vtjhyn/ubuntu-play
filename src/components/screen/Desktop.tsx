@@ -48,12 +48,12 @@ const Desktop = () => {
       let newMinimizedWindows = { ...prevMinimizedWindows, [id]: false };
       return newMinimizedWindows;
     });
-  
+
     setFocusedApps(prevFocusedApps => {
       let newFocusedWindows = { ...prevFocusedApps, [id]: true };
       return newFocusedWindows;
     });
-  
+
     if (!openedApps.includes(id)) {
       setOpennedApps(prevOpenedApps => [...prevOpenedApps, id]);
     }
@@ -77,14 +77,13 @@ const Desktop = () => {
   const onMinimizedApp = (id: string) => {
     setMinimizedWindows({ ...minimizedWindows, [id]: true });
     setFocusedApps({ ...focusedApp, [id]: false });
-    handleShowSidebar(null, false);
   }
 
 
   return (
     <div className={" h-full w-full flex flex-col items-end justify-start content-start flex-wrap-reverse pt-8 bg-transparent relative overflow-hidden overscroll-none window-parent"}>
-      <div style={{ backgroundImage: `url(${BackgroundImage[bgImage]})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPositionX: "center" }} className="bguntu-img absolute -z-10 top-0 right-0 overflow-hidden h-full w-full">
-      </div>
+      <div style={{ backgroundImage: `url(${BackgroundImage[bgImage]})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPositionX: "center" }} className="bguntu-img absolute -z-10 top-0 right-0 overflow-hidden h-full w-full" />
+
       <Sidebar
         show={showSidebar}
         openedApps={openedApps}
@@ -120,7 +119,7 @@ const Desktop = () => {
               hideSideBar={handleShowSidebar}
               minimized={onMinimizedApp}
               isMinimized={minimizedWindows[app.id]}
-              hideAllSideBar={() => { setShowSidebar(!showSidebar) }}
+              hideAllSideBar={() => setShowSidebar(!showSidebar)}
             />
           )
         }
