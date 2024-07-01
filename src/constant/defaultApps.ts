@@ -36,7 +36,7 @@ const defaultApps: ApplicationTypes[] = [
   },
   {
     id: "gedit",
-    title: "Contact Me",
+    title: "Text Editor",
     icon: "./icons/apps/gedit.png",
     favourite: true,
     shortcut: true,
