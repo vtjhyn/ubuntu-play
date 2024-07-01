@@ -55,7 +55,7 @@ test: add unit tests for formatTime utility
 
 ## 🌈 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Before contributing, please read our [Contribution Guidelines](CONTRIBUTING.md).
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
