@@ -1,9 +1,9 @@
-interface DefaultMenuProps {
+interface ApplicationMenuProps {
     active: boolean;
 }
-const DefaultMenu: React.FC<DefaultMenuProps> = ({ active }) => {
+const ApplicationMenu: React.FC<ApplicationMenuProps> = ({ active }) => {
     return (
-        <div id="default-menu" className={`${active ? "block" : "hidden"} cursor-default w-52 context-menu-bg border text-left border-gray-900 rounded text-white py-4 absolute z-50 text-sm`}>
+        <div id="application-menu" className={`${active ? "block" : "hidden"} cursor-default w-52 context-menu-bg border text-left border-gray-900 rounded text-white py-4 absolute z-50 text-sm`}>
             <a rel="noreferrer noopener" href="https://github.com/vtjhyn/ubuntu-play" target="_blank" className="w-full block cursor-default py-0.5 hover:bg-warm-grey hover:bg-opacity-20 mb-1.5">
                 <span className="ml-2">Star this Project</span>
             </a>
@@ -24,4 +24,4 @@ const DefaultMenu: React.FC<DefaultMenuProps> = ({ active }) => {
 };
 
 
-export default DefaultMenu;
+export default ApplicationMenu;
