@@ -20,6 +20,7 @@ const Desktop = () => {
   const [showAllApps, setShowAllApps] = useState<boolean>(false);
   const [contextMenu, setContextMenu] = useState<Record<string, boolean>>({ desktop: false, application: false });
   const [showNameBar, setShowNameBar] = useState<boolean>(false);
+  const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
 
   const handleShowSidebar = (id: string | null, hide: boolean) => {
     if (hide === showSidebar) return;
@@ -93,8 +94,16 @@ const Desktop = () => {
   const addApplication = (appName: string) => {
     appName = appName.trim();
     let folder_id = appName.replace(/\s+/g, "-").toLowerCase();
+    const storedFile = JSON.parse(localStorage.getItem("newFolder") || "[]");
+    if (storedFile) {
+      if (storedFile && storedFile.find((file: { id: string }) => file.id === folder_id)) {
+        window.alert("Folder name already exists");
+        return
+      }
+    }
+
     defaultApps.push({
-      id: `new-folder-${folder_id}`,
+      id: folder_id,
       title: appName,
       icon: "./icons/system/folder-icon.png",
       favourite: false,
@@ -102,7 +111,7 @@ const Desktop = () => {
       screen: () => <></>,
     });
     let newFolder = JSON.parse(localStorage.getItem("newFolder") || "[]");
-    newFolder.push({ id: `new-folder-${folder_id}`, name: appName });
+    newFolder.push({ id: folder_id, name: appName });
     localStorage.setItem("newFolder", JSON.stringify(newFolder));
 
     setShowNameBar(false);
@@ -143,8 +152,12 @@ const Desktop = () => {
 
     if (contextType === "desktop-area") {
       showContextMenu(e, "desktop");
-    } else if (contextType === "application") {
+      setSelectedFileId(null);
+    } else if (contextType === "application" && target.dataset.fileId) {
       showContextMenu(e, "application");
+      const fileId = target.dataset.fileId;
+      setSelectedFileId(fileId);
+      console.log(fileId);
     }
   };
 
@@ -242,10 +255,10 @@ const Desktop = () => {
     const parsedFolder = JSON.parse(newFolder) as { id: string; name: string }[];
 
     parsedFolder.forEach((folder) => {
-      const existingFolder = defaultApps.find(app => app.id === `new-folder-${folder.id}`);
+      const existingFolder = defaultApps.find(app => app.id === folder.id);
       if (!existingFolder) {
         defaultApps.push({
-          id: `new-folder-${folder.id}`,
+          id: folder.id,
           title: folder.name,
           icon: "./icons/system/folder-icon.png",
           favourite: false,
@@ -257,8 +270,6 @@ const Desktop = () => {
 
     updateApplication();
   };
-
-
 
   const renderNameBar = () => {
     const addFolder = () => {
@@ -276,7 +287,7 @@ const Desktop = () => {
     };
 
     return (
-      <div className="absolute rounded-md top-1/2 left-1/2 text-center text-white font-light text-sm bg-ub-cool-grey transform -translate-y-1/2 -translate-x-1/2 sm:w-96 w-3/4 z-50">
+      <div className="absolute rounded-md top-1/2 left-1/2 text-center text-white font-light text-sm bg-cool-grey transform -translate-y-1/2 -translate-x-1/2 sm:w-96 w-3/4 z-50">
         <div className="w-full flex flex-col justify-around items-start pl-6 pb-8 pt-6">
           <span>New folder name</span>
           <input
@@ -291,13 +302,13 @@ const Desktop = () => {
         <div className="flex">
           <div
             onClick={addFolder}
-            className="w-1/2 px-4 py-2 border border-gray-900 border-opacity-50 border-r-0 hover:bg-ub-warm-grey hover:bg-opacity-10 hover:border-opacity-50"
+            className="w-1/2 px-4 py-2 border border-gray-900 border-opacity-50 border-r-0 hover:bg-warm-grey hover:bg-opacity-10 hover:border-opacity-50 cursor-default"
           >
             Create
           </div>
           <div
             onClick={removeCard}
-            className="w-1/2 px-4 py-2 border border-gray-900 border-opacity-50 hover:bg-ub-warm-grey hover:bg-opacity-10 hover:border-opacity-50"
+            className="w-1/2 px-4 py-2 border border-gray-900 border-opacity-50 hover:bg-warm-grey hover:bg-opacity-10 hover:border-opacity-50 cursor-default"
           >
             Cancel
           </div>
@@ -305,6 +316,20 @@ const Desktop = () => {
       </div>
     );
   };
+
+  const deleteFile = () => {
+    const updatedDefaultApps = defaultApps.filter((app) => app.id !== selectedFileId);
+    defaultApps.length = 0;
+    defaultApps.push(...updatedDefaultApps);
+
+    const newFolder = JSON.parse(localStorage.getItem("newFolder") || "[]");
+    const updatedFolder = newFolder.filter((folder: { id: string; name: string }) => folder.id !== selectedFileId);
+    localStorage.setItem("newFolder", JSON.stringify(updatedFolder));
+
+    setOpennedApps(prevOpenedApps => prevOpenedApps.filter(appId => appId !== selectedFileId));
+
+    updateApplication();
+  }
 
   return (
     <div className={" h-full w-full flex flex-col items-end justify-start content-start flex-wrap-reverse pt-8 bg-transparent relative overflow-hidden overscroll-none window-parent"}>
@@ -355,7 +380,7 @@ const Desktop = () => {
         addNewFolder={addNewFolder}
       />
 
-      <ApplicationMenu active={contextMenu.application} />
+      <ApplicationMenu active={contextMenu.application} deleteFile={deleteFile} />
 
       {showNameBar ? renderNameBar() : null}
 

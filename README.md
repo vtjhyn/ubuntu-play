@@ -2,6 +2,9 @@
 
 Ubuntu-Play is a web-based interface that mimics the Ubuntu operating system, built using React. This project aims to provide a familiar Ubuntu-like environment accessible through a web browser.
 
+- [Demo](https://ubuntu-play.vercel.app)
+- [Preview Dev](https://ubuntu-play-git-dev-vtjhyns-projects.vercel.app)
+
 ---
 
 ## 📦 Installation
