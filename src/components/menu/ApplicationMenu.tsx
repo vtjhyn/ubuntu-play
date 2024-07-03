@@ -1,7 +1,8 @@
 interface ApplicationMenuProps {
     active: boolean;
+    deleteFile: () => void;
 }
-const ApplicationMenu: React.FC<ApplicationMenuProps> = ({ active }) => {
+const ApplicationMenu: React.FC<ApplicationMenuProps> = ({ active, deleteFile }) => {
     return (
         <div id="application-menu" className={`${active ? "block" : "hidden"} cursor-default w-52 context-menu-bg border text-left border-gray-900 rounded text-white py-4 absolute z-50 text-sm`}>
             <a rel="noreferrer noopener" href="https://github.com/vtjhyn/ubuntu-play" target="_blank" className="w-full block cursor-default py-0.5 hover:bg-warm-grey hover:bg-opacity-20 mb-1.5">
@@ -18,6 +19,9 @@ const ApplicationMenu: React.FC<ApplicationMenuProps> = ({ active }) => {
             </a>
             <div onClick={() => { localStorage.clear(); window.location.reload(); }} className="w-full block cursor-default py-0.5 hover:bg-warm-grey hover:bg-opacity-20 mb-1.5">
                 <span className="ml-2">Reset Ubuntu</span>
+            </div>
+            <div onClick={deleteFile} className="w-full block cursor-default py-0.5 hover:bg-warm-grey hover:bg-opacity-20 mb-1.5">
+                <span className="ml-2">Delete</span>
             </div>
         </div>
     );
